@@ -34,36 +34,6 @@ jobs:
         name: .net-app
         path: ${{env.DOTNET_ROOT}}/myapp
 
-  # manifest
-    - task: DotNetCoreCLI@2
-      displayName: New Manifest for tool
-      inputs:
-        command: custom
-        custom: 'new '
-        arguments: tool-manifest
-
-  # instal ef tool
-    - task: DotNetCoreCLI@2
-      displayName: Install EF Tool
-      inputs:
-        command: custom
-        custom: 'tool '
-        arguments: install dotnet-ef
-
-  # Create sql sccript
-    - task: DotNetCoreCLI@2
-      displayName: Create SQL Scripts
-      inputs:
-        command: custom
-        custom: 'ef '
-        arguments: migrations script --output $(Build.SourcesDirectory)/SQL/CarBaseScript.sql --idempotent --project $(Build.SourcesDirectory)/src/Cars.csproj --context AppDbContext
-
-  # Run sql DB script 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: SQLScripts'
-      inputs:
-        PathtoPublish: $(Build.SourcesDirectory)/SQL/CarBaseScript.sql
-        ArtifactName: SQLScripts
 
   deploy:
     runs-on: ubuntu-latest
