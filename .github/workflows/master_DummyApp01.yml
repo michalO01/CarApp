@@ -58,6 +58,13 @@ jobs:
         custom: 'ef '
         arguments: migrations script --output $(Build.SourcesDirectory)/SQL/CarBaseScript.sql --idempotent --project $(Build.SourcesDirectory)/src/Cars.csproj --context AppDbContext
 
+  # Run sql DB script 
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: SQLScripts'
+      inputs:
+        PathtoPublish: $(Build.SourcesDirectory)/SQL/CarBaseScript.sql
+        ArtifactName: SQLScripts
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -79,10 +86,3 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_08d3c2ebbb4b49709672ee79310b5350 }}
         package: .
-
-        # Run sql DB script 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: SQLScripts'
-      inputs:
-        PathtoPublish: $(Build.SourcesDirectory)/SQL/CarBaseScript.sql
-        ArtifactName: SQLScripts
