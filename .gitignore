@@ -247,7 +247,6 @@ ModelManifest.xml
 **/devops/build.ps1
 
 **/jspm_packages/
-**/dist/
 **/typings/
 
 # IntelliJ
